@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaStore.Models;
 
 namespace PizzaStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190407105308_AddCategoryAndIngredients")]
+    partial class AddCategoryAndIngredients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +26,7 @@ namespace PizzaStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("NameC");
 
                     b.HasKey("CategoryID");
 
@@ -37,13 +39,13 @@ namespace PizzaStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("NameI");
 
-                    b.Property<string>("Photo");
+                    b.Property<string>("PhotoI");
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal>("PriceI");
 
-                    b.Property<decimal>("Weight");
+                    b.Property<decimal>("WeightI");
 
                     b.HasKey("IngredientID");
 
@@ -78,7 +80,7 @@ namespace PizzaStore.Migrations
             modelBuilder.Entity("PizzaStore.Models.Product", b =>
                 {
                     b.HasOne("PizzaStore.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany("ProductsC")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

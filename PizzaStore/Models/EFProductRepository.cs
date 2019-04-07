@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace PizzaStore.Models
 {
@@ -12,5 +13,6 @@ namespace PizzaStore.Models
             _context = ctx;
         }
         public IQueryable<Product> Products => _context.Products;
+        public IQueryable<Ingredient> Ingredients => _context.Ingredients;
     }
 }

@@ -5,16 +5,12 @@ using System.Threading.Tasks;
 
 namespace PizzaStore.Models
 {
-    public class Product
+    public class Ingredient
     {
-        public int ProductID { get; set; }
+        public int IngredientID { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public int CategoryID { get; set; }
-        public string Photo { get; set; }
         public decimal Weight { get; set; }
- 
-        public Category Category { get; set; }
+        public decimal Price { get; set; }
+        public string Photo { get; set; }
     }
 }

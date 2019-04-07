@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using PizzaStore.Models;
+using PizzaStore.Models.ViewModels;
 
 namespace PizzaStore.Components
 {
@@ -14,10 +15,10 @@ namespace PizzaStore.Components
         }
         public IViewComponentResult Invoke() {
             ViewBag.SelectedCategory = RouteData?.Values["category"];
-            return View(repository.Products
-                .Select(x => x.Category)
-                .Distinct()
-                .OrderBy(x => x));
+                return View(repository.Products
+                    .Select(x => x.Category.Name)
+                    .Distinct()
+                    .OrderBy(x => x));
         }
     }
 }
