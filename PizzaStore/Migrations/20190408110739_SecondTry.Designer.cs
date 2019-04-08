@@ -9,8 +9,8 @@ using PizzaStore.Models;
 namespace PizzaStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190407111148_EditNamesCategory")]
-    partial class EditNamesCategory
+    [Migration("20190408110739_SecondTry")]
+    partial class SecondTry
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,11 +77,39 @@ namespace PizzaStore.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("PizzaStore.Models.ProductIngredient", b =>
+                {
+                    b.Property<int>("ProductID");
+
+                    b.Property<int>("IngredientID");
+
+                    b.Property<int>("ProductCount");
+
+                    b.HasKey("ProductID", "IngredientID");
+
+                    b.HasIndex("IngredientID");
+
+                    b.ToTable("ProductIngredients");
+                });
+
             modelBuilder.Entity("PizzaStore.Models.Product", b =>
                 {
                     b.HasOne("PizzaStore.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PizzaStore.Models.ProductIngredient", b =>
+                {
+                    b.HasOne("PizzaStore.Models.Ingredient", "Ingredient")
+                        .WithMany("ProductIngredients")
+                        .HasForeignKey("IngredientID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PizzaStore.Models.Product", "Product")
+                        .WithMany("ProductIngredients")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

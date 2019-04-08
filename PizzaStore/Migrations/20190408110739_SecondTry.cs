@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PizzaStore.Migrations
 {
-    public partial class AddCategoryAndIngredients : Migration
+    public partial class SecondTry : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace PizzaStore.Migrations
                 {
                     CategoryID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    NameC = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,10 +26,10 @@ namespace PizzaStore.Migrations
                 {
                     IngredientID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    NameI = table.Column<string>(nullable: true),
-                    WeightI = table.Column<decimal>(nullable: false),
-                    PriceI = table.Column<decimal>(nullable: false),
-                    PhotoI = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Weight = table.Column<decimal>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    Photo = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,6 +60,36 @@ namespace PizzaStore.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductIngredients",
+                columns: table => new
+                {
+                    ProductID = table.Column<int>(nullable: false),
+                    IngredientID = table.Column<int>(nullable: false),
+                    ProductCount = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductIngredients", x => new { x.ProductID, x.IngredientID });
+                    table.ForeignKey(
+                        name: "FK_ProductIngredients_Ingredients_IngredientID",
+                        column: x => x.IngredientID,
+                        principalTable: "Ingredients",
+                        principalColumn: "IngredientID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductIngredients_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductIngredients_IngredientID",
+                table: "ProductIngredients",
+                column: "IngredientID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryID",
                 table: "Products",
@@ -68,6 +98,9 @@ namespace PizzaStore.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ProductIngredients");
+
             migrationBuilder.DropTable(
                 name: "Ingredients");
 

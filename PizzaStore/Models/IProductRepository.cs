@@ -8,6 +8,6 @@ namespace PizzaStore.Models
     public interface IProductRepository
     {
         IQueryable<Product> Products { get; }
-        IQueryable<Ingredient> Ingredients { get; }
+        IQueryable<ProductIngredient> ProductIngredients { get; }
     }
 }

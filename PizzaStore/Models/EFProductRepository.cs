@@ -13,6 +13,6 @@ namespace PizzaStore.Models
             _context = ctx;
         }
         public IQueryable<Product> Products => _context.Products;
-        public IQueryable<Ingredient> Ingredients => _context.Ingredients;
+        public IQueryable<ProductIngredient> ProductIngredients => _context.ProductIngredients;
     }
 }

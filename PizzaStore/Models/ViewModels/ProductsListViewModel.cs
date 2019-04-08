@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using PizzaStore.Models;
 
 namespace PizzaStore.Models.ViewModels
 {
@@ -8,5 +7,6 @@ namespace PizzaStore.Models.ViewModels
         public IEnumerable<Product> Products { get; set; }
         public PagingInfo PagingInfo { get; set; }
         public string CurrentCategory { get; set; }
+        public IEnumerable<ProductIngredient> ProductIngredients { get; set; }
     }
 }

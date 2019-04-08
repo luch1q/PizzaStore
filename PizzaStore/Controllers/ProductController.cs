@@ -2,6 +2,7 @@
 using PizzaStore.Models;
 using System.Linq;
 using PizzaStore.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace PizzaStore.Controllers
 {
@@ -19,7 +20,8 @@ namespace PizzaStore.Controllers
                 .Where(p => category == null || p.Category.Name == category)
                 .OrderBy(p => p.ProductID)
                 .Skip((productPage - 1) * PageSize)
-                .Take(PageSize),
+                .Take(PageSize)
+                .Include(p => p.Category),
             PagingInfo = new PagingInfo {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
@@ -28,7 +30,10 @@ namespace PizzaStore.Controllers
                 _repository.Products.Where(e =>
                 e.Category.Name == category).Count()
             },
-            CurrentCategory = category
+            CurrentCategory = category,
+            ProductIngredients = _repository.ProductIngredients
+                .Include(p => p.Ingredient)
+                .ToList()
             });
     }
 }

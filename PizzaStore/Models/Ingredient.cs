@@ -12,5 +12,7 @@ namespace PizzaStore.Models
         public decimal Weight { get; set; }
         public decimal Price { get; set; }
         public string Photo { get; set; }
+
+        public List<ProductIngredient> ProductIngredients { get; set; }
     }
 }
