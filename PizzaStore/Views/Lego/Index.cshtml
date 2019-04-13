@@ -1,0 +1,52 @@
+﻿
+@model LegoViewModel
+<h2>Конструктор пиццы</h2>
+<div class="row">
+    @*Images of constructor*@
+    <div id="images_of_constructor" class="col col-sm-auto" style="position: relative;">
+        <img src="~/images/default.png" alt="ASP" class="img-responsive" />
+        @foreach (var y in Model.ListofIngredients)
+        {
+            <img class="ingredientLayer" src="~/images/@(y.Photo + ".png")" alt="ASP" />
+        }
+
+    </div>
+    @*List of ingredients part*@
+    <div class="col col-md" id="list_of_ingredients">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Вес</th>
+                    <th scope="col">Стоимость</th>
+                    <th scope="col">Кол-во</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var z in Model.ListofIngredients)
+                {
+                    <tr>
+                        <td>@z.Name</td>
+                        <td>@z.Weight</td>
+                        <td>@z.Price</td>
+                        <td>1</td>
+                        <td>
+                            <button type="button" class="close" aria-label="Close"
+                                    onclick="removeItem(@z.IngredientID)">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-4">
+
+    @foreach (var i in Model.Ingredients)
+    {
+        @Html.Partial("IngredientSummary", i)
+    }
+</div>

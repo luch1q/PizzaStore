@@ -1,0 +1,6 @@
+﻿@model Ingredient
+<div class="col">
+    <div class="ingredient_item d-flex justify-content-start justify-content-center" onclick="addItem(@Model.IngredientID)">
+        <img src="~/images/Small/@(Model.Photo + ".jpg")" alt="ASP.NET" />
+    </div>
+</div>

@@ -14,5 +14,7 @@ namespace PizzaStore.Models
         }
         public IQueryable<Product> Products => _context.Products;
         public IQueryable<ProductIngredient> ProductIngredients => _context.ProductIngredients;
+        public IQueryable<Category> Categories => _context.Categories;
+        public IQueryable<Ingredient> Ingredients => _context.Ingredients;
     }
 }

@@ -1,0 +1,21 @@
+﻿.ingredientLayer {
+    position: absolute; 
+    top: 0;
+}
+.ingredient_item {
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    height: 60px;
+    border-radius: 5px;
+    transition: box-shadow .2s;
+}
+.ingredient_item:hover {
+    box-shadow: 0 0 9px rgba(21, 25, 25, 0.78); 
+}
+h2{
+    padding-bottom:30px;
+}
+#images_of_constructor{
+    padding-left:0px;
+}

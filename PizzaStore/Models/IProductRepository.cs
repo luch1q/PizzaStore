@@ -9,5 +9,7 @@ namespace PizzaStore.Models
     {
         IQueryable<Product> Products { get; }
         IQueryable<ProductIngredient> ProductIngredients { get; }
+        IQueryable<Category> Categories { get; }
+        IQueryable<Ingredient> Ingredients { get; }
     }
 }
