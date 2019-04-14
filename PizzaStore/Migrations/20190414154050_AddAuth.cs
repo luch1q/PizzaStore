@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PizzaStore.Migrations
 {
-    public partial class SecondTry : Migration
+    public partial class AddAuth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,6 +38,19 @@ namespace PizzaStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    OrderID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.OrderID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -47,7 +61,8 @@ namespace PizzaStore.Migrations
                     Price = table.Column<decimal>(nullable: false),
                     CategoryID = table.Column<int>(nullable: false),
                     Photo = table.Column<string>(nullable: true),
-                    Weight = table.Column<decimal>(nullable: false)
+                    Weight = table.Column<decimal>(nullable: false),
+                    IsCustom = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,10 +100,40 @@ namespace PizzaStore.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductOrder",
+                columns: table => new
+                {
+                    ProductID = table.Column<int>(nullable: false),
+                    OrderID = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductOrder", x => new { x.ProductID, x.OrderID });
+                    table.ForeignKey(
+                        name: "FK_ProductOrder_Order_OrderID",
+                        column: x => x.OrderID,
+                        principalTable: "Order",
+                        principalColumn: "OrderID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductOrder_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ProductIngredients_IngredientID",
                 table: "ProductIngredients",
                 column: "IngredientID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductOrder_OrderID",
+                table: "ProductOrder",
+                column: "OrderID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryID",
@@ -102,7 +147,13 @@ namespace PizzaStore.Migrations
                 name: "ProductIngredients");
 
             migrationBuilder.DropTable(
+                name: "ProductOrder");
+
+            migrationBuilder.DropTable(
                 name: "Ingredients");
+
+            migrationBuilder.DropTable(
+                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "Products");

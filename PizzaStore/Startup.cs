@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PizzaStore.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using PizzaStore.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace PizzaStore
 {
@@ -19,7 +21,24 @@ namespace PizzaStore
             services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(
                     Configuration["Data:PizzaStoreProducts:ConnectionString"]));
-            
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration["Data:PizzaStoreProducts:ConnectionString"]));
+
+            #region Auth
+            services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordValidator>();
+            services.AddTransient<IUserValidator<AppUser>, CustomUserValidator>();
+            services.AddIdentity<AppUser, IdentityRole>(opts => {
+                opts.User.RequireUniqueEmail = true;
+                /*opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz";*/
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
+            #endregion
+
             services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
             services.AddMvc();
@@ -33,6 +52,12 @@ namespace PizzaStore
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession();
+
+            #region Auth
+            app.UseAuthentication();
+            AppIdentityDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
+            #endregion
+
             app.UseMvc(routes => {
                 routes.MapRoute(
                 name: null,
@@ -71,6 +96,7 @@ namespace PizzaStore
 
             }
             );
+
             SeedData.EnsurePopulated(app);
         }
     }
