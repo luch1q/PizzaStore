@@ -17,7 +17,7 @@ namespace PizzaStore.Controllers
         public ViewResult List(string category, int productPage = 1) 
             => View(new ProductsListViewModel {
             Products = _repository.Products
-                .Where(p => category == null || p.Category.Name == category)
+                .Where(p => category == null && p.IsCustom == false || p.Category.Name == category )
                 .OrderBy(p => p.ProductID)
                 .Skip((productPage - 1) * PageSize)
                 .Take(PageSize)
@@ -26,9 +26,9 @@ namespace PizzaStore.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItems = category == null ?
-                _repository.Products.Count():
+                _repository.Products.Where(e => e.IsCustom == false).Count():
                 _repository.Products.Where(e =>
-                e.Category.Name == category).Count()
+                e.Category.Name == category && e.IsCustom == false).Count()
             },
             CurrentCategory = category,
             ProductIngredients = _repository.ProductIngredients

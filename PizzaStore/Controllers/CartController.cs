@@ -24,6 +24,8 @@ namespace PizzaStore.Controllers
                 ReturnUrl = returnUrl
             });
         }
+        public ViewResult List() =>
+           View(orderRepository.Orders);
         public RedirectToActionResult AddToCart(int productId, string returnUrl)
         {
             Product product = repository.Products
@@ -55,7 +57,7 @@ namespace PizzaStore.Controllers
             Cart cart = GetCart();
             if (cart.Lines.Count() == 0)
             {
-                ModelState.AddModelError("", "Sorry, your cart is empty!");
+                ModelState.AddModelError("", "Корзина пуста!");
             }
             if (ModelState.IsValid)
             {

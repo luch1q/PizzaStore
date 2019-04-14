@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace PizzaStore.Models
@@ -15,7 +17,7 @@ namespace PizzaStore.Models
                 .Where(p => p.Product.ProductID == product.ProductID)
                 .FirstOrDefault();
 
-            if(line == null)
+            if(line == null || line.Product.IsCustom)
             {
                 _lineCollection.Add(new CartLine {
                     Product = product,

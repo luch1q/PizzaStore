@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet"
+          asp-href-include="/bootstrap/dist/**/*.min.css"
+          asp-href-exclude="**/*-reboot*,**/*-grid*" />
+    <script src="~/jquery/jquery.js"></script>
+    <script src="~/js/scripts.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+    <title>@ViewBag.Title</title>
+</head>
+<body class="m-1 p-1">
+    <div class="bg-info p-2"><h4>@ViewBag.Title</h4></div>
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-success">@TempData["message"]</div>
+    }
+    @RenderBody()
+</body>

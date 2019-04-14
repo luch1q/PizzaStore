@@ -11,5 +11,7 @@ namespace PizzaStore.Models
         IQueryable<ProductIngredient> ProductIngredients { get; }
         IQueryable<Category> Categories { get; }
         IQueryable<Ingredient> Ingredients { get; }
+
+        void SaveProduct(Product product);
     }
 }

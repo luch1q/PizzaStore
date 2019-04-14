@@ -5,9 +5,9 @@
     @*Images of constructor*@
     <div id="images_of_constructor" class="col col-sm-auto" style="position: relative;">
         <img src="~/images/default.png" alt="ASP" class="img-responsive" />
-        @foreach (var y in Model.ListofIngredients)
+        @foreach (var y in Model.LegoLines)
         {
-            <img class="ingredientLayer" src="~/images/@(y.Photo + ".png")" alt="ASP" />
+            <img class="ingredientLayer" src="~/images/@(y.Ingredient.Photo + ".png")" alt="ASP" />
         }
 
     </div>
@@ -24,16 +24,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var z in Model.ListofIngredients)
+                @foreach (var z in Model.LegoLines)
                 {
                     <tr>
-                        <td>@z.Name</td>
-                        <td>@z.Weight</td>
-                        <td>@z.Price</td>
-                        <td>1</td>
+                        <td>@z.Ingredient.Name</td>
+                        <td>@z.Ingredient.Weight</td>
+                        <td>@z.Ingredient.Price.ToString("c")</td>
+                        <td>@z.Quantity</td>
                         <td>
                             <button type="button" class="close" aria-label="Close"
-                                    onclick="removeItem(@z.IngredientID)">
+                                    onclick="removeItem(@z.Ingredient.IngredientID)">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </td>
@@ -41,6 +41,7 @@
                 }
             </tbody>
         </table>
+        <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="addCustomPizzaToCart()" style="background-color: #dc88a2;">Добавить в корзину</button>
     </div>
 </div>
 <div class="row mt-4">
