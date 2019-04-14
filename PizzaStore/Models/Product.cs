@@ -14,8 +14,10 @@ namespace PizzaStore.Models
         public int CategoryID { get; set; }
         public string Photo { get; set; }
         public decimal Weight { get; set; }
+        public bool IsCustom { get; set; }
  
         public Category Category { get; set; }
         public List<ProductIngredient> ProductIngredients { get; set; }
+        public List<ProductOrder> ProductOrder { get; set; }
     }
 }

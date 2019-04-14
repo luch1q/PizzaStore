@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PizzaStore.Infrastructure;
@@ -9,9 +10,11 @@ namespace PizzaStore.Controllers
     public class CartController : Controller
     {
         private IProductRepository repository;
-        public CartController(IProductRepository repo)
+        private IOrderRepository orderRepository;
+        public CartController(IProductRepository repo, IOrderRepository order)
         {
             repository = repo;
+            orderRepository = order;
         }
         public ViewResult Index(string returnUrl)
         {
@@ -46,6 +49,35 @@ namespace PizzaStore.Controllers
             }
             return RedirectToAction("Index", new { returnUrl });
         }
+        public RedirectToActionResult Checkout()
+        {
+            Order order = new Order();
+            Cart cart = GetCart();
+            if (cart.Lines.Count() == 0)
+            {
+                ModelState.AddModelError("", "Sorry, your cart is empty!");
+            }
+            if (ModelState.IsValid)
+            {
+                order.DateTime = DateTime.Now;
+
+                order.ProductOrder = cart.Lines.Select( p => new ProductOrder{
+                    Product = p.Product,
+                    Order = order,
+                    Quantity = p.Quantity})
+                    .ToList();
+
+                orderRepository.SaveOrder(order);
+            }
+            return RedirectToAction("Index");
+        }
+        public ViewResult Completed()
+        {
+            Cart cart = GetCart();
+            cart.Clear();
+            return View();
+        }
+
         private Cart GetCart()
         {
             Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
