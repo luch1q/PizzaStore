@@ -36,7 +36,7 @@
         </tr>
         @foreach(var i in Model.Cart.Lines)
         { 
-            @foreach (var z in i.Product.ProductIngredients)
+            @foreach (var z in i.Product.ProductIngredients.Where(n => n.ProductID == line.Product.ProductID))
             {
                 <tr><td></td><td class="bg-warning">@z.Ingredient.Name</td></tr>
             } 
