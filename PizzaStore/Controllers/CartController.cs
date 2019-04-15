@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using PizzaStore.Infrastructure;
 using PizzaStore.Models;
 using PizzaStore.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+
 namespace PizzaStore.Controllers
 {
     public class CartController : Controller
@@ -24,36 +27,34 @@ namespace PizzaStore.Controllers
                 ReturnUrl = returnUrl
             });
         }
+        [Authorize(Roles = "Admins")]
         public ViewResult List() =>
-           View(orderRepository.Orders);
+           View(new LastViewModel { Orders = orderRepository.Orders.ToList() , ProductIngredients = repository.ProductIngredients.Include( i => i.Ingredient).ToList()});
+
         public RedirectToActionResult AddToCart(int productId, string returnUrl)
         {
             Product product = repository.Products
                 .FirstOrDefault(p => p.ProductID == productId);
+
             if (product != null)
             {
+                product.ProductIngredients = repository.ProductIngredients.Include(pi => pi.Ingredient).Where(pi => pi.ProductID == productId).ToList();
                 Cart cart = GetCart();
                 cart.AddItem(product, 1);
                 SaveCart(cart);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
-        public RedirectToActionResult RemoveFromCart(int productId,
-                                                    string returnUrl)
+        public RedirectToActionResult RemoveFromCart(int productId, string returnUrl)
         {
-            Product product = repository.Products
-                .FirstOrDefault(p => p.ProductID == productId);
-            if (product != null)
-            {
                 Cart cart = GetCart();
-                cart.RemoveLine(product);
+                cart.RemoveLine(productId);
                 SaveCart(cart);
-            }
             return RedirectToAction("Index", new { returnUrl });
         }
+        [HttpPost]
         public RedirectToActionResult Checkout()
         {
-            Order order = new Order();
             Cart cart = GetCart();
             if (cart.Lines.Count() == 0)
             {
@@ -61,7 +62,10 @@ namespace PizzaStore.Controllers
             }
             if (ModelState.IsValid)
             {
-                order.DateTime = DateTime.Now;
+                Order order = new Order
+                {
+                    DateTime = DateTime.Now
+                };
 
                 order.ProductOrder = cart.Lines.Select( p => new ProductOrder{
                     Product = p.Product,
@@ -70,7 +74,10 @@ namespace PizzaStore.Controllers
                     .ToList();
 
                 orderRepository.SaveOrder(order);
-            }
+                SaveCart(null);
+                return RedirectToAction("Completed");
+            }else
+
             return RedirectToAction("Index");
         }
         public ViewResult Completed()

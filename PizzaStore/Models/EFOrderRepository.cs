@@ -13,7 +13,7 @@ namespace PizzaStore.Models
         }
         public IQueryable<Order> Orders => context.Order
                            .Include(o => o.ProductOrder)
-                           .ThenInclude(l => l.Product);
+                           .ThenInclude(l => l.Product); 
         public void SaveOrder(Order order)
         {
             context.AttachRange(order.ProductOrder.Select(l => l.Product));

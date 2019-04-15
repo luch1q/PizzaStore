@@ -7,9 +7,27 @@
       "destination": "wwwroot/bootstrap/"
     },
     {
+      "library": "fontawesome@4.7.1",
+      "destination": "wwwroot/fontawesome/"
+    },
+    {
+      "library": "fontawesome-iconset@4.5.3",
+      "destination": "wwwroot/fontawesome-iconset/"
+    },
+    {
       "provider": "cdnjs",
-      "library": "jquery@3.4.0",
+      "library": "font-awesome@5.8.1",
+      "destination": "wwwroot/font-awesome/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.3.1",
       "destination": "wwwroot/jquery/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "popper.js@1.15.0",
+      "destination": "wwwroot/popper.js/"
     }
   ]
 }

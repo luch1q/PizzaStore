@@ -1,38 +1,43 @@
 ﻿
 @model Product
 @{
-    ViewBag.Title = "Edit Product";
+    ViewBag.Title = "Изменить продукт";
     Layout = "_AdminLayout";
 }
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="ProductID" />
     <div class="form-group">
-        <label asp-for="Name"></label>
+        <label asp-for="Name">Имя</label>
+        <div><span asp-validation-for="Name" class="text-danger"></span></div>
         <input asp-for="Name" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Description"></label>
+        <label asp-for="Description">Описание</label>
+        <div><span asp-validation-for="Description" class="text-danger"></span></div>
         <textarea asp-for="Description" class="form-control"></textarea>
     </div>
     <div class="form-group">
-        <label asp-for="CategoryID"></label>
-        <input asp-for="CategoryID" class="form-control" />
+        <label asp-for="CategoryID">Категория</label>
+        <div><span asp-validation-for="CategoryID" class="text-danger"></span></div>
+        <select class="form-control" asp-for="CategoryID" asp-items="ViewBag.Category" ></select>
     </div>
     <div class="form-group">
-        <label asp-for="Price"></label>
+        <label asp-for="Price">Цена</label>
+        <div><span asp-validation-for="Price" class="text-danger"></span></div>
         <input asp-for="Price" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Photo"></label>
+        <label asp-for="Photo">Фото</label>
         <input asp-for="Photo" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Weight"></label>
+        <label asp-for="Weight">Вес</label>
+        <div><span asp-validation-for="Weight" class="text-danger"></span></div>
         <input asp-for="Weight" class="form-control" />
     </div>
     <div class="text-center">
-        <button class="btn btn-primary" type="submit">Save</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
     </div>
 </form>
 

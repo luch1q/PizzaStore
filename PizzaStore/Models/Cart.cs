@@ -29,8 +29,8 @@ namespace PizzaStore.Models
                 line.Quantity += quantity;
             }
         }
-        public virtual void RemoveLine(Product product) =>
-            _lineCollection.RemoveAll(l => l.Product.ProductID == product.ProductID);
+        public virtual void RemoveLine(int productID) =>
+            _lineCollection.RemoveAll(l => l.Product.ProductID == productID);
         public virtual decimal ComputeTotalValue() =>
             _lineCollection.Sum(e => e.Product.Price * e.Quantity);
         public virtual void Clear() => _lineCollection.Clear();

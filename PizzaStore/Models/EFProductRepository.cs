@@ -40,6 +40,17 @@ namespace PizzaStore.Models
             }
             _context.SaveChanges();
         }
+        public Product DeleteProduct(int productID)
+        {
+            Product dbEntry = _context.Products
+                .FirstOrDefault(p => p.ProductID == productID);
+            if (dbEntry != null)
+            {
+                _context.Products.Remove(dbEntry);
+                _context.SaveChanges();
+            }
+            return dbEntry;
+        }
 
     }
 }

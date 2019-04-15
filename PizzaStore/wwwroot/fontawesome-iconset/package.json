@@ -1,0 +1,36 @@
+{
+  "name": "fontawesome-iconset",
+  "version": "4.5.3",
+  "description": "Polymer/core-icon compatible iconset based on Font Awesome SVG font",
+  "main": "update.js",
+  "author": "Sacha Kyvner <philya@gmail.com>",
+  "contributors": [
+    {
+      "name": "Lucas Matías Ciruzzi",
+      "email": "lucasmciruzzi@live.com"
+    }
+  ],
+  "scripts": {
+    "update": "node ./update",
+    "postinstall": "npm run -s update"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/js-yaml": "^3.5.28",
+    "@types/node": "^8.0.31",
+    "@types/request": "^2.0.3",
+    "js-yaml": "^3.2.6",
+    "request": "^2.53.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vangware/font-awesome-iconset"
+  },
+  "keywords": [
+    "Font Awesome",
+    "Polymer",
+    "Icons",
+    "Icon Set",
+    "web-components"
+  ]
+}

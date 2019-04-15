@@ -22,26 +22,42 @@ namespace PizzaStore.Controllers
             SaveLego(lego);
             return RedirectToAction("Index");
         }
+        [HttpPost]
         public RedirectToActionResult AddToCart()
         {
             Lego lego = GetLego();
-            Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
-            Product product = new Product { Name = "CustomPizza", IsCustom = true , CategoryID = 1};
+            
+            if (lego.Ingredients.Count() == 0)
+            {
+                ModelState.AddModelError("", "Добавьте ингредиентов!");
+            }
+            if (ModelState.IsValid)
+            {
+                Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
+                Product product = new Product { Name = "CustomPizza", IsCustom = true, CategoryID = 1 };
 
-            product.ProductIngredients = lego.Ingredients.Select( p => 
-                new ProductIngredient
-                {
-                    Product = product,
-                    Ingredient = p.Ingredient
-                }).ToList();
-            product.Price = lego.Ingredients.Sum(s => s.Ingredient.Price);
+                product.ProductIngredients = lego.Ingredients.Select(p =>
+                   new ProductIngredient
+                   {
+                       Product = product,
+                       Ingredient = p.Ingredient
+                   }).ToList();
+                product.Price = lego.Ingredients.Sum(s => s.Ingredient.Price) * 120;
 
-            cart.AddItem(product, 1);
+                cart.AddItem(product, 1);
 
-            HttpContext.Session.SetJson("Cart", cart);
+                HttpContext.Session.SetJson("Cart", cart);
+                return RedirectToAction("Completed");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+        public ViewResult Completed()
+        {
             HttpContext.Session.SetJson("Lego", null);
-
-            return RedirectToAction("Index");
+            return View();
         }
         public RedirectToActionResult RemoveItem(int ingredientID)
         {

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace PizzaStore.Controllers
 {
@@ -34,12 +35,55 @@ namespace PizzaStore.Controllers
         public ViewResult Index() => View(repository.Products.Where(p => !p.IsCustom));
         public ViewResult IndexAccount() => View(userManager.Users);
 
-        public ViewResult Edit(int productId) =>
-            View(repository.Products
-                .FirstOrDefault(p => p.ProductID == productId));
+        public ViewResult Edit(int productId)
+        {
 
-        #region PostsFromAntoha
+            ViewBag.Category = 
+                repository.Categories.Select( c => new SelectListItem() {
+                    Value = c.CategoryID.ToString(),
+                    Text = c.Name
+                });
+            return View(repository.Products.Include(a => a.Category)
+                .FirstOrDefault(p => p.ProductID == productId));
+        }
         [HttpPost]
+        public IActionResult Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.SaveProduct(product);
+                TempData["message"] = $"{product.Name} был сохранён!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(product);
+            }
+        }
+
+        public ViewResult Create()
+        {
+            ViewBag.Category =
+                repository.Categories.Select(c => new SelectListItem()
+                {
+                    Value = c.CategoryID.ToString(),
+                    Text = c.Name
+                });
+            return View("Edit", new Product());
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int productId)
+        {
+            Product deletedProduct = repository.DeleteProduct(productId);
+            if (deletedProduct != null)
+            {
+                TempData["message"] = $"{deletedProduct.Name} был удалён!";
+            }
+            return RedirectToAction("Index");
+
+        }
+        #region PostsFromAntoha
         public async Task<IActionResult> CreateAccount(CreateModel model)
         {
             if (ModelState.IsValid)

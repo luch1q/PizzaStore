@@ -19,3 +19,7 @@ h2{
 #images_of_constructor {
     padding-left: 0px;
 }
+.input-validation-error {
+    border-color: red;
+    background-color: #fee;
+}

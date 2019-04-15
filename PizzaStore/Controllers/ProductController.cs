@@ -17,7 +17,7 @@ namespace PizzaStore.Controllers
         public ViewResult List(string category, int productPage = 1) 
             => View(new ProductsListViewModel {
             Products = _repository.Products
-                .Where(p => category == null && p.IsCustom == false || p.Category.Name == category )
+                .Where(p => category == null && p.IsCustom == false || p.Category.Name == category && p.IsCustom == false)
                 .OrderBy(p => p.ProductID)
                 .Skip((productPage - 1) * PageSize)
                 .Take(PageSize)

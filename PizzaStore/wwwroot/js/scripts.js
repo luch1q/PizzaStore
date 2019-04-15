@@ -1,4 +1,5 @@
-﻿function removeItem(ingid) {
+﻿
+function removeItem(ingid) {
     $.ajax({
         type: "POST",
         url: " /Lego/RemoveItem",

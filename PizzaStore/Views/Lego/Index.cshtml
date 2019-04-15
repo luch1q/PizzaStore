@@ -41,7 +41,10 @@
                 }
             </tbody>
         </table>
-        <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="addCustomPizzaToCart()" style="background-color: #dc88a2;">Добавить в корзину</button>
+        @*<button type="button" class="btn btn-primary btn-lg btn-block" onclick="addCustomPizzaToCart()" style="background-color: #dc88a2;">Добавить в корзину</button>*@
+        <form asp-action="AddToCart" method="post">
+            <input class="btn btn-primary btn-lg btn-block" style="background-color: #dc88a2;" type="submit" value="Оформить" />
+        </form>
     </div>
 </div>
 <div class="row mt-4">

@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\fontawesome\**" />
+    <Compile Remove="wwwroot\jquery\**" />
+    <Content Remove="wwwroot\fontawesome\**" />
+    <Content Remove="wwwroot\jquery\**" />
+    <EmbeddedResource Remove="wwwroot\fontawesome\**" />
+    <EmbeddedResource Remove="wwwroot\jquery\**" />
+    <None Remove="wwwroot\fontawesome\**" />
+    <None Remove="wwwroot\jquery\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

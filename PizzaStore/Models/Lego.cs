@@ -24,6 +24,7 @@ namespace PizzaStore.Models
             lineIngredients.RemoveAll(i => i.Ingredient.IngredientID == ingredient.IngredientID);
         }
         public virtual List<LegoLine> Ingredients => lineIngredients;
+        public virtual void Clear() => lineIngredients.Clear();
     }
 
     public class LegoLine

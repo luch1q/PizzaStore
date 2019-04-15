@@ -13,5 +13,6 @@ namespace PizzaStore.Models
         IQueryable<Ingredient> Ingredients { get; }
 
         void SaveProduct(Product product);
+        Product DeleteProduct(int productID);
     }
 }

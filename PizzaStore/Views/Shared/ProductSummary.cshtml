@@ -1,5 +1,28 @@
 ﻿@model Product
-<div class="card card-outline-primary m-1 p-1">
+<div class="col-auto mb-3 mh-100">
+    <div class="card m-2 " style="width: 18rem" >
+        <img class="img-fluid position-relative" src="~/images/pizza/@(Model.Photo + ".png")" alt="Card image cap">
+        <div class="card-body p-3 ">
+            <h5 class="card-title">@Model.Name</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@Model.Price.ToString("c")</h6>
+            <p class="card-text">@Model.Description</p>
+            <ul>@foreach (var i in Model.ProductIngredients)
+            {<li>@i.Ingredient.Name;</li>} </ul>
+            <form id="@Model.ProductID" asp-action="AddToCart"
+                  asp-controller="Cart" method="post">
+                <input type="hidden" asp-for="ProductID" />
+                <input type="hidden" name="returnUrl"
+                       value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                    <button type="submit"
+                            class="btn btn-success btn-sm pull-right" style="background-color: #dc88a2;">
+                        Добавить в корзину
+                    </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+@*<div class="card card-outline-primary m-1 p-1">
     <div class="bg-faded p-1">
         <h4>
             @Model.Name
@@ -21,7 +44,7 @@
             </button>
         </span>
     </form>
-</div>
+</div>*@
 
 
 

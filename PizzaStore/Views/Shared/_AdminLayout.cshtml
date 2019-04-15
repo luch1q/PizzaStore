@@ -10,11 +10,29 @@
     <link rel="stylesheet" type="text/css" href="~/css/styles.css">
     <title>@ViewBag.Title</title>
 </head>
-<body class="m-1 p-1">
-    <div class="bg-info p-2"><h4>@ViewBag.Title</h4></div>
-    @if (TempData["message"] != null)
-    {
-        <div class="alert alert-success">@TempData["message"]</div>
-    }
-    @RenderBody()
+<body>
+    <div class="bg-info p-2 ">
+        <div class="row">
+            <h4 class="ml-5 d-flex mr-sm-5">@ViewBag.Title</h4>
+            <a class="btn btn-secondary"
+               asp-action="List"
+               asp-controller="Product"
+               asp-route-category="">
+                Домой
+            </a>
+        </div>
+    </div>
+        <div class="row m-1 p-1">
+            <div class="col-3">
+                @await Component.InvokeAsync("NavigationAdminMenu")
+            </div>
+            <div class="col-9">
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-success">@TempData["message"]</div>
+                }
+                @RenderBody()
+            </div>
+        </div>
 </body>
+</html>

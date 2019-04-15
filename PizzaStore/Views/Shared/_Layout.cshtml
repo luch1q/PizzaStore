@@ -6,15 +6,33 @@
     <link rel="stylesheet"
           asp-href-include="/bootstrap/dist/**/*.min.css"
           asp-href-exclude="**/*-reboot*,**/*-grid*" />
-    <script src="~/jquery/jquery.js"></script>
+    <link rel="stylesheet" asp-href-include="/font-awesome/css/*.css" />
+    
+    <script src="~/jquery/jquery.min.js"></script>
+    <script src="~/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/scripts.js"></script>
+
+
     <link rel="stylesheet" type="text/css" href="~/css/styles.css">
     <title>Пицца</title>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-light " style="background-color: #b17a8b; " role="navigation">
-        <a class="navbar-brand" href="#">ПИЦЦА</a>
-    </div>
+        <div class="row">
+            <a class="d-flex flex-row col navbar-brand fa fa-pizza-slice ml-3" href="#">ПИЦЦА</a>
+            <div class="d-flex flex-row-reverse text-right mr-3">
+                @await Component.InvokeAsync("CartSummary")
+            </div>
+            <div class="d-flex flex-row mr-3">
+                <a class="btn btn-block btn-secondary btn-sm"
+                   asp-action="Index"
+                   asp-controller="Admin"
+                   asp-route-category="">
+                    Войти
+                </a>
+            </div>
+         </div>
+        </div>
     <div class="row m-1 p-1">
         <div id="categories" class="col-3">
             @await Component.InvokeAsync("NavigationMenu")
